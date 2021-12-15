@@ -3,7 +3,6 @@ package com.canalplus.imdb.project.repository;
 import com.canalplus.imdb.project.dto.EpisodeBasicsSearch;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Repository;
-
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.util.List;
@@ -28,8 +27,6 @@ public class SearchSeriesRepositoryImpl implements SearchSeriesRepository {
                         "             where   e.episodeNumber in " +
                         "             (select e.episodeNumber from Episode e ) order by e.episodeNumber " +
                         "             desc  ";
-        List<EpisodeBasicsSearch> query =
-                em.createQuery(queryStr, EpisodeBasicsSearch.class).setMaxResults(limitPrintData).getResultList();
-        return query;
+        return em.createQuery(queryStr, EpisodeBasicsSearch.class).setMaxResults(limitPrintData).getResultList();
     }
 }
