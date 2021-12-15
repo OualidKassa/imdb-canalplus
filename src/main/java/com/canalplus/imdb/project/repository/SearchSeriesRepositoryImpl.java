@@ -1,6 +1,7 @@
 package com.canalplus.imdb.project.repository;
 
 import com.canalplus.imdb.project.dto.EpisodeBasicsSearch;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
@@ -12,6 +13,9 @@ public class SearchSeriesRepositoryImpl implements SearchSeriesRepository {
 
     @PersistenceContext
     private EntityManager em;
+
+    @Value(value = "${data.limit.print.episodes}")
+    private int limitPrintData;
 
     @Override
     public List<EpisodeBasicsSearch> searchSeriesNameWithGreatestNumberEpisodes() {
@@ -25,7 +29,7 @@ public class SearchSeriesRepositoryImpl implements SearchSeriesRepository {
                         "             (select e.episodeNumber from Episode e ) order by e.episodeNumber " +
                         "             desc  ";
         List<EpisodeBasicsSearch> query =
-                em.createQuery(queryStr, EpisodeBasicsSearch.class).setMaxResults(10).getResultList();
+                em.createQuery(queryStr, EpisodeBasicsSearch.class).setMaxResults(limitPrintData).getResultList();
         return query;
     }
 }
